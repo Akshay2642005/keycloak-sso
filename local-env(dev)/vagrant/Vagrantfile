@@ -1,0 +1,34 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "rocky" do |rocky|
+    rocky.vm.box = "bento/rockylinux-9"
+    rocky.vm.box_version = "202508.03.0"
+    rocky.vm.network "forwarded_port", guest: 8080, host: 8080    # HTTP
+    rocky.vm.network "private_network",ip: "192.168.59.109"
+    rocky.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = 2
+      vb.name = "rocky"
+    end
+
+    # Provisioning to add SSH public key for passwordless access
+    pub_key = File.read(File.join(File.dirname(__FILE__), "ansible_key.pub"))
+    rocky.vm.provision "shell", inline: <<-SHELL
+        set -e
+
+        # For vagrant user
+        mkdir -p /home/vagrant/.ssh
+        echo "#{pub_key}" >> /home/vagrant/.ssh/authorized_keys
+        chmod 600 /home/vagrant/.ssh/authorized_keys
+        chown -R vagrant:vagrant /home/vagrant/.ssh
+
+        # For root user
+        mkdir -p /root/.ssh
+        echo "#{pub_key}" >> /root/.ssh/authorized_keys
+        chmod 600 /root/.ssh/authorized_keys
+
+        # Allow root login with keys
+        sed -i 's/^#*PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
+        systemctl restart sshd
+      SHELL
+  end
+end

@@ -1,0 +1,58 @@
+---
+- name: Create Django DB
+  mysql_db:
+    name: djangodb
+    state: present
+
+- name: Create Django user
+  mysql_user:
+    name: djangouser
+    password: "{{ django_db_pass }}"
+    priv: "djangodb.*:ALL"
+    host: localhost
+    state: present
+
+- name: Create Django project
+  command: >
+    bash -c "cd /var/www && python3 -m venv django_project/venv &&
+    source django_project/venv/bin/activate &&
+    pip install django gunicorn mozilla-django-oidc mysqlclient &&
+    django-admin startproject mysite django_project/"
+  args:
+    creates: /var/www/django_project
+
+- name: Apache vhost Django
+  copy:
+    dest: /etc/httpd/conf.d/django.conf
+    content: |
+      <VirtualHost *:80>
+          ServerName django.local
+          ProxyPass / http://127.0.0.1:8000/
+          ProxyPassReverse / http://127.0.0.1:8000/
+      </VirtualHost>
+
+- name: Gunicorn service
+  copy:
+    dest: /etc/systemd/system/gunicorn.service
+    content: |
+      [Unit]
+      Description=gunicorn for Django
+      After=network.target
+      [Service]
+      User=root
+      Group=apache
+      WorkingDirectory=/var/www/django_project
+      ExecStart=/var/www/django_project/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 mysite.wsgi:application
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Enable Gunicorn
+  systemd:
+    name: gunicorn
+    state: started
+    enabled: yes
+
+- name: Restart Apache
+  service:
+    name: httpd
+    state: restarted

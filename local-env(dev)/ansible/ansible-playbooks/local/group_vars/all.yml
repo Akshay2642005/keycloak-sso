@@ -1,0 +1,13 @@
+# Keycloak
+keycloak_version: "24.0.4"
+keycloak_admin_user: admin
+keycloak_admin_password: "admin123"
+
+# Database
+drupal_db_pass: "drupalpass123"
+django_db_pass: "djangopass123"
+
+# OIDC Client Secrets
+php_client_secret: U3Ryb25nUGhwU2VjcmV0MTIzDQo
+drupal_client_secret: U3Ryb25nRHJ1cGFsU2VjcmV0MTIzDQo
+django_client_secret: U3Ryb25nRGphbmdvU2VjcmV0MTIzDQo

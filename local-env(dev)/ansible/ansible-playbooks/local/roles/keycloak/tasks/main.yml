@@ -1,0 +1,54 @@
+---
+- name: Download Keycloak
+  get_url:
+    url: "https://github.com/keycloak/keycloak/releases/download/{{ keycloak_version }}/keycloak-{{ keycloak_version }}.zip"
+    dest: /tmp/keycloak.zip
+
+- name: Extract Keycloak
+  unarchive:
+    src: /tmp/keycloak.zip
+    dest: /opt
+    remote_src: yes
+
+- name: Symlink Keycloak dir
+  file:
+    src: "/opt/keycloak-{{ keycloak_version }}"
+    dest: /opt/keycloak
+    state: link
+    force: yes
+
+- name: Create keycloak user
+  user:
+    name: keycloak
+    system: yes
+    home: /opt/keycloak
+    shell: /sbin/nologin
+
+- name: Systemd service for Keycloak
+  copy:
+    dest: /etc/systemd/system/keycloak.service
+    content: |
+      [Unit]
+      Description=Keycloak
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=keycloak
+      Group=keycloak
+      ExecStart=/opt/keycloak/bin/kc.sh start-dev --http-port=8080
+      Environment=KEYCLOAK_ADMIN={{ keycloak_admin_user }}
+      Environment=KEYCLOAK_ADMIN_PASSWORD={{ keycloak_admin_pass }}
+      Restart=on-failure
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd
+  command: systemctl daemon-reload
+
+- name: Start Keycloak
+  systemd:
+    name: keycloak
+    state: started
+    enabled: yes

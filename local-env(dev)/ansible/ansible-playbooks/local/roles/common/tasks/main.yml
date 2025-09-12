@@ -1,0 +1,54 @@
+---
+- name: Update packages
+  dnf:
+    name: "*"
+    state: latest
+
+- name: Install base dependencies
+  dnf:
+    name:
+      - epel-release
+      - httpd
+      - php
+      - php-cli
+      - php-mysqlnd
+      - php-gd
+      - php-xml
+      - php-mbstring
+      - php-json
+      - php-fpm
+      - mariadb-server
+      - python3
+      - python3-pip
+      - git
+      - unzip
+      - wget
+      - java-17-openjdk-devel
+      - firewalld
+      - composer
+    state: present
+
+- name: Enable and start services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - httpd
+    - mariadb
+    - php-fpm
+    - firewalld
+
+- name: Open firewall ports
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop:
+    - 80/tcp
+    - 443/tcp
+    - 22/tcp
+    - 8080/tcp
+
+- name: Reload firewalld
+  command: firewall-cmd --reload

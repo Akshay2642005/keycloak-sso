@@ -1,0 +1,11 @@
+---
+- name: Configure RockyLinux Vm with Keycloak + Apps
+  hosts: rocky
+  become: true
+
+  roles:
+    - role: common
+    - role: keycloak
+    - role: drupal
+    - role: django
+    - role: phpapp

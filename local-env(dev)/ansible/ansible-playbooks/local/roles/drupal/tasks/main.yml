@@ -1,0 +1,43 @@
+---
+- name: Create Drupal DB
+  mysql_db:
+    name: drupaldb
+    state: present
+
+- name: Create Drupal user
+  mysql_user:
+    name: drupaluser
+    password: "{{ drupal_db_pass }}"
+    priv: "drupaldb.*:ALL"
+    host: localhost
+    state: present
+
+- name: Install Drupal
+  command: composer create-project drupal/recommended-project /var/www/drupal
+  args:
+    creates: /var/www/drupal
+
+- name: Set ownership Drupal
+  file:
+    path: /var/www/drupal
+    owner: apache
+    group: apache
+    recurse: yes
+
+- name: Apache vhost Drupal
+  copy:
+    dest: /etc/httpd/conf.d/drupal.conf
+    content: |
+      <VirtualHost *:80>
+          ServerName drupal.local
+          DocumentRoot /var/www/drupal/web
+          <Directory /var/www/drupal/web>
+            AllowOverride All
+            Require all granted
+          </Directory>
+      </VirtualHost>
+
+- name: Restart Apache
+  service:
+    name: httpd
+    state: restarted

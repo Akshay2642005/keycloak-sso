@@ -1,0 +1,58 @@
+---
+- name: Create PHP app dir
+  file:
+    path: /var/www/php_app
+    state: directory
+
+- name: Deploy login.php
+  copy:
+    dest: /var/www/php_app/login.php
+    content: |
+      <?php
+      session_start();
+      require 'vendor/autoload.php';
+      use Jumbojett\OpenIDConnectClient;
+      $oidc = new OpenIDConnectClient(
+          'http://127.0.0.1:8080/realms/master',
+          'php-app',
+          '{{ php_client_secret }}'
+      );
+      $oidc->setRedirectURL('http://php.local/callback.php');
+      $oidc->authenticate();
+      $_SESSION['user_info'] = $oidc->requestUserInfo();
+      header("Location: /profile.php");
+      exit();
+      ?>
+
+- name: Deploy profile.php
+  copy:
+    dest: /var/www/php_app/profile.php
+    content: |
+      <?php
+      session_start();
+      if (empty($_SESSION['user_info'])) {
+          header("Location: /login.php");
+          exit();
+      }
+      $userInfo = $_SESSION['user_info'];
+      echo "<h1>Welcome, " . htmlspecialchars($userInfo->name) . "</h1>";
+      echo "<p>Email: " . htmlspecialchars($userInfo->email) . "</p>";
+      ?>
+
+- name: Apache vhost PHP
+  copy:
+    dest: /etc/httpd/conf.d/php_app.conf
+    content: |
+      <VirtualHost *:80>
+          ServerName php.local
+          DocumentRoot /var/www/php_app
+          <Directory /var/www/php_app>
+            AllowOverride All
+            Require all granted
+          </Directory>
+      </VirtualHost>
+
+- name: Restart Apache
+  service:
+    name: httpd
+    state: restarted

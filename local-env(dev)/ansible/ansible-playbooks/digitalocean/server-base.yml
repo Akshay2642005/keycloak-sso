@@ -1,0 +1,56 @@
+---
+- name: Base system setup with latest versions
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update all system packages
+      dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: Install EPEL release
+      dnf:
+        name: epel-release
+        state: latest
+
+    - name: Install Remi release for PHP
+      dnf:
+        name: https://rpms.remirepo.net/enterprise/remi-release-10.rpm
+        state: latest
+        disable_gpg_check: true
+
+    - name: Enable PHP 8.4 module
+      command: dnf module enable -y php:remi-8.4
+      args:
+        creates: /etc/dnf/modules.d/php.module
+
+    - name: Install and update Apache, PHP, MariaDB, Python, and utilities
+      dnf:
+        name:
+          - httpd
+          - php
+          - php-cli
+          - php-mysqlnd
+          - php-gd
+          - php-xml
+          - php-mbstring
+          - php-json
+          - php-fpm
+          - mariadb-server
+          - python3
+          - python3-pip
+          - unzip
+          - wget
+        state: latest
+
+    - name: Enable and start core services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop:
+        - httpd
+        - php-fpm
+        - mariadb
