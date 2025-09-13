@@ -1,33 +1,37 @@
 ---
-- name: Base system setup with latest versions
+- name: Initial setup for Rocky Linux droplet
   hosts: all
   become: true
+  vars_files:
+    - secret.yml
 
   tasks:
+    # ----------------------------
+    # 1. System Packages & PHP 8.4
+    # ----------------------------
     - name: Update all system packages
-      dnf:
+      ansible.builtin.dnf:
         name: "*"
         state: latest
-        update_cache: yes
 
     - name: Install EPEL release
-      dnf:
+      ansible.builtin.dnf:
         name: epel-release
-        state: latest
+        state: present
 
     - name: Install Remi release for PHP
       dnf:
         name: https://rpms.remirepo.net/enterprise/remi-release-10.rpm
-        state: latest
+        state: present
         disable_gpg_check: true
 
-    - name: Enable PHP 8.4 module
+    - name: Enable PHP 8.3 module
       command: dnf module enable -y php:remi-8.4
       args:
         creates: /etc/dnf/modules.d/php.module
 
-    - name: Install and update Apache, PHP, MariaDB, Python, and utilities
-      dnf:
+    - name: Install Apache, PHP, MariaDB, Python, tools
+      ansible.builtin.dnf:
         name:
           - httpd
           - php
@@ -43,14 +47,92 @@
           - python3-pip
           - unzip
           - wget
-        state: latest
+          - composer
+          - firewalld
+        state: present
 
     - name: Enable and start core services
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ item }}"
-        enabled: yes
+        enabled: true
         state: started
       loop:
         - httpd
         - php-fpm
         - mariadb
+
+    #-----------------------------
+    # 2. Firewall Config
+    #-----------------------------
+    - name: Enable and start firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: Allow common services (HTTP, HTTPS, SSH)
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+        immediate: yes
+      loop:
+        - http
+        - https
+        - ssh
+
+    - name: Allow Keycloak port 8080
+      ansible.posix.firewalld:
+        port: 8080/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Reload firewalld
+      ansible.builtin.command: firewall-cmd --reload
+
+    # ----------------------------
+    # 3. Install Keycloak
+    # ----------------------------
+    - name: Install Java 17 (required for Keycloak)
+      ansible.builtin.dnf:
+        name: java-21-openjdk-devel
+        state: present
+
+    - name: Download Keycloak
+      ansible.builtin.get_url:
+        url: "https://github.com/keycloak/keycloak/releases/download/24.0.4/keycloak-24.0.4.zip"
+        dest: "/opt/keycloak-24.0.4.zip"
+        mode: "0644"
+
+    - name: Unzip Keycloak
+      ansible.builtin.unarchive:
+        src: "/opt/keycloak-24.0.4.zip"
+        dest: "/opt/"
+        remote_src: true
+      notify: Set keycloak ownership
+
+    - name: Rename Keycloak directory
+      ansible.builtin.command: mv /opt/keycloak-24.0.4 /opt/keycloak
+      args:
+        creates: /opt/keycloak
+
+    - name: Create keycloak group
+      ansible.builtin.group:
+        name: keycloak
+        state: present
+
+    - name: Create keycloak user
+      ansible.builtin.user:
+        name: keycloak
+        group: keycloak
+        home: /opt/keycloak
+        shell: /sbin/nologin
+        system: true
+
+    - name: Set Keycloak ownership
+      ansible.builtin.file:
+        path: /opt/keycloak
+        owner: keycloak
+        group: keycloak
+        recurse: yes
