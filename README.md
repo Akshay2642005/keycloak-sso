@@ -4,11 +4,11 @@ A comprehensive infrastructure automation project that demonstrates the setup of
 
 ## 🌐 Live Demo
 
-**Production Server**: `64.227.148.71`
+**Production Server**: `64.227.153.180`
 
 **Live Applications**:
 
-- **Keycloak Admin Console**: [http://64.227.148.71:8080](http://64.227.148.71:8080)
+- **Keycloak Admin Console**: [http://64.227.153.180:8080](http://64.227.153.180:8080)
 - **Drupal Application**: [https://drupal.hkcoder.tech](https://drupal.hkcoder.tech)
 - **Django Application**: [https://django.hkcoder.tech](https://django.hkcoder.tech)
 - **PHP Application**: [https://php.hkcoder.tech](https://php.hkcoder.tech)
@@ -83,7 +83,7 @@ sre-intership-task/
 
 This comprehensive README.md now includes:
 
-1. **Live Demo Section** with actual droplet IP (64.227.148.71) and domains (drupal.hkcoder.tech, django.hkcoder.tech, php.hkcoder.tech)
+1. **Live Demo Section** with actual droplet IP (64.227.153.180) and domains (drupal.hkcoder.tech, django.hkcoder.tech, php.hkcoder.tech)
 2. **Detailed Screenshots** (20+ images) showing:
    - Infrastructure setup (firewall, Ansible, services)
    - Keycloak installation and configuration
@@ -175,7 +175,7 @@ The README is now much more detailed and includes all the specific information y
 
 After successful deployment, access the applications at:
 
-- **Keycloak Admin Console**: [http://64.227.148.71:8080](http://64.227.148.71:8080)
+- **Keycloak Admin Console**: [http://64.227.153.180:8080](http://64.227.153.180:8080)
 - **Drupal Application**: [http://drupal.hkcoder.tech](https://drupal.hkcoder.tech)
 - **Django Application**: [http://django.hkcoder.tech](https://django.hkcoder.tech)
 - **PHP Application**: [http://php.hkcoder.tech](https://php.hkcoder.tech)
@@ -482,4 +482,4 @@ This project is part of an SRE internship task and is intended for educational p
 
 **Note**: This project demonstrates enterprise-level infrastructure automation and SSO integration. All configurations are production-ready with proper security hardening and monitoring capabilities.
 
-**Live Demo**: Visit [http://64.227.148.71:8080](http://64.227.148.71:8080) to access the Keycloak admin console and test the SSO integration across all three applications.
+**Live Demo**: Visit [http://64.227.153.180:8080](http://64.227.153.180:8080) to access the Keycloak admin console and test the SSO integration across all three applications.
