@@ -176,9 +176,9 @@ The README is now much more detailed and includes all the specific information y
 After successful deployment, access the applications at:
 
 - **Keycloak Admin Console**: [http://64.227.153.180:8080](http://64.227.153.180:8080)
-- **Drupal Application**: [http://drupal.hkcoder.tech](https://drupal.hkcoder.tech)
-- **Django Application**: [http://django.hkcoder.tech](https://django.hkcoder.tech)
-- **PHP Application**: [http://php.hkcoder.tech](https://php.hkcoder.tech)
+- **Drupal Application**: [https://drupal.hkcoder.tech](https://drupal.hkcoder.tech)
+- **Django Application**: [https://django.hkcoder.tech](https://django.hkcoder.tech)
+- **PHP Application**: [https://php.hkcoder.tech](https://php.hkcoder.tech)
 
 ### SSO Configuration
 
@@ -377,7 +377,7 @@ django_client_secret: "U3Ryb25nRGphbmdvU2VjcmV0MTIzDQo"
 - `mozilla-django-oidc` library
 - OpenID Connect authentication backend
 - Session management
-- Redirect URI: `http://django.hkcoder.tech/oidc/callback/`
+- Redirect URI: `https://django.hkcoder.tech/oidc/callback/`
 
 **PHP Integration:**
 
