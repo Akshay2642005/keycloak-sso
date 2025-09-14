@@ -39,7 +39,7 @@ This project showcases modern DevOps practices by implementing Infrastructure as
 
 ## Architecture Overview
 
-![Architecture Diagram](./digitalocean/pictures/Screenshot%202025-09-11%20182008.png)
+![Architecture Diagram](./digitalocean/pictures/keycloak-ui.png)
 *High-level architecture showing the integration between Digital Ocean, Keycloak, and the three applications*
 
 ## Folder Structure
@@ -60,7 +60,7 @@ sre-intership-task/
 │   └── pictures/                   # Documentation screenshots
 │       ├── firewalld.png           # Firewall configuration
 │       ├── server-update-ansible.png # Ansible execution
-│       └── Screenshot_*.png        # Various setup screenshots
+│       └── *.png                   # Various setup screenshots
 ├── local-env(dev)/                 # Local development environment
 │   ├── ansible/                    # Local Ansible configuration
 │   │   ├── ansible-playbooks/      # Comprehensive playbooks
@@ -83,22 +83,22 @@ sre-intership-task/
 
 This comprehensive README.md now includes:
 
-1. **Live Demo Section** with actual droplet IP and domains
-2. **Architecture Overview** with visual diagram
-3. **Detailed Screenshots** (15+ images) showing:
-   - Infrastructure setup process
-   - Keycloak configuration
+1. **Live Demo Section** with actual droplet IP (64.227.148.71) and domains (drupal.hkcoder.tech, django.hkcoder.tech, php.hkcoder.tech)
+2. **Detailed Screenshots** (20+ images) showing:
+   - Infrastructure setup (firewall, Ansible, services)
+   - Keycloak installation and configuration
    - Each application (Drupal, Django, PHP) setup and running
-   - Service management
-   - Final verification
-4. **Specific Configuration** for each application with actual domains
-5. **Security Features** section
-6. **Monitoring and Logging** information
-7. **Troubleshooting** guide
-8. **Performance Optimization** details
-9. **Professional formatting** with clear sections and emojis
+   - DNS configuration with Cloudflare
+   - SSL certificate setup with Certbot
+   - Service management and status
+3. **Specific Configuration** for each application with actual domains
+4. **Security Features** section
+5. **Monitoring and Logging** information
+6. **Troubleshooting** guide
+7. **Performance Optimization** details
+8. **Professional formatting** with clear sections and emojis
 
-The README is now much more detailed and includes the specific information you requested about the droplet IP (64.227.148.71) and the three domains (drupal.hkcoder.tech, django.hkcoder.tech, php.hkcoder.tech).
+The README is now much more detailed and includes all the specific information you requested about the droplet IP and the three domains, along with comprehensive visual documentation from the actual screenshots taken during the setup process.
 
 ## Installation
 
@@ -197,101 +197,86 @@ Each application is pre-configured with Keycloak clients:
 
 ### Infrastructure Setup
 
-![Digital Ocean Droplet Creation](./digitalocean/pictures/Screenshot%202025-09-09%20120946.png)
-*Initial Digital Ocean droplet creation with Rocky Linux 10*
-
-![Server Initial Setup](./digitalocean/pictures/Screenshot%202025-09-09%20123143.png)
-*Server initial configuration and user setup*
-
 ![Firewall Configuration](./digitalocean/pictures/firewalld.png)
 *Firewall configuration showing allowed services and ports*
 
-![System Package Installation](./digitalocean/pictures/Screenshot%202025-09-09%20170127.png)
-*System package installation and repository configuration*
-
-![Ansible Execution](./digitalocean/pictures/server-update-ansible.png)
+![Ansible Provisioning](./digitalocean/pictures/ansible-provision.png)
 *Ansible playbook execution for server configuration*
+
+![System Services Status](./digitalocean/pictures/httpd-service.png)
+*Apache HTTP server and PHP-FPM service status*
+
+![MariaDB Service Status](./digitalocean/pictures/mariadb-service.png)
+*MariaDB database service configuration and status*
+
+![MariaDB Security Installation](./digitalocean/pictures/mariadb-secure-install.png)
+*MariaDB security configuration and hardening*
 
 ### Keycloak Setup
 
-![Keycloak Installation](./digitalocean/pictures/Screenshot%202025-09-11%20182008.png)
-*Keycloak installation and initial configuration*
+![JDK Installation](./digitalocean/pictures/jdk-installation.png)
+*Java Development Kit installation for Keycloak*
 
-![Keycloak Admin Console](./digitalocean/pictures/Screenshot%202025-09-11%20193217.png)
-*Keycloak administration console login*
+![Keycloak Development Start](./digitalocean/pictures/keycloak-dev-start.png)
+*Keycloak server starting in development mode*
 
-![Keycloak Realm Configuration](./digitalocean/pictures/Screenshot%202025-09-11%20193435.png)
-*Keycloak realm and client configuration*
+![Keycloak Initial Admin Setup](./digitalocean/pictures/keycloak-initla-admin.png)
+*Keycloak initial administrative user creation*
 
-![Keycloak Client Setup](./digitalocean/pictures/Screenshot%202025-09-11%20193449.png)
-*Keycloak client configuration for applications*
+![Keycloak Admin Console](./digitalocean/pictures/keycloak-initial-admin-console.png)
+*Keycloak administration console login interface*
 
-![Keycloak User Management](./digitalocean/pictures/Screenshot%202025-09-11%20193525.png)
-*Keycloak user management and authentication settings*
+![Keycloak Systemd Service](./digitalocean/pictures/keycloak-systemd.png)
+*Keycloak systemd service configuration and status*
+
+![Keycloak Service Status](./digitalocean/pictures/keycloak-service.png)
+*Keycloak service running and operational*
 
 ### Drupal Application
 
-![Drupal Installation](./digitalocean/pictures/Screenshot%202025-09-11%20193641.png)
-*Drupal 11 installation and configuration*
+![Drupal Home Page](./digitalocean/pictures/drupal-home.png)
+*Drupal 11 application home page*
 
-![Drupal Keycloak Module](./digitalocean/pictures/Screenshot%202025-09-11%20193759.png)
-*Drupal Keycloak module installation and configuration*
+![Drupal Keycloak Configuration](./digitalocean/pictures/drupal-keycloak-config.png)
+*Drupal Keycloak module configuration*
 
-![Drupal SSO Configuration](./digitalocean/pictures/Screenshot%202025-09-11%20193828.png)
-*Drupal SSO configuration with Keycloak integration*
+![Drupal SSO Login](./digitalocean/pictures/drupal-sso.png)
+*Drupal SSO login page with Keycloak integration*
 
-![Drupal Application Running](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Drupal application running with SSO integration*
-
-![Drupal Login Flow](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Drupal login flow demonstrating SSO authentication*
+![Drupal Authorized User](./digitalocean/pictures/drupal-authoraized.png)
+*Drupal user profile after successful SSO authentication*
 
 ### Django Application
 
-![Django Project Setup](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Django project setup and virtual environment configuration*
+![Django Login Page](./digitalocean/pictures/django-login.png)
+*Django application login interface*
 
-![Django OIDC Configuration](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Django OpenID Connect configuration with Keycloak*
-
-![Django Application Running](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Django application running with OIDC authentication*
-
-![Django SSO Login](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Django SSO login demonstration*
+![Django SSO Integration](./digitalocean/pictures/django-sso.png)
+*Django SSO integration with Keycloak*
 
 ### PHP Application
 
-![PHP Application Setup](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*PHP application setup and OIDC library installation*
+![PHP Home Page](./digitalocean/pictures/php-home.png)
+*PHP application home page with Keycloak login option*
 
-![PHP Login Page](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*PHP application login page with Keycloak integration*
+![PHP Authorized User](./digitalocean/pictures/php-authorized.png)
+*PHP application user profile after successful authentication*
 
-![PHP Profile Page](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*PHP application profile page showing user information*
+### DNS Configuration
 
-![PHP SSO Flow](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*PHP SSO authentication flow demonstration*
+![DNS Records](./digitalocean/pictures/dns-record.png)
+*DNS A records configuration for subdomains*
 
-### Service Management
+![Cloudflare Records](./digitalocean/pictures/cloudflre-record.png)
+*Cloudflare DNS configuration for domains*
 
-![System Services Status](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*System services status showing all running services*
+![Cloudflare Record Details](./digitalocean/pictures/recourd%20for%20cloudflare.png)
+*Detailed Cloudflare DNS record configuration*
 
-![Apache Configuration](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Apache virtual host configuration for all applications*
+### SSL Certificate Setup
 
-![Database Configuration](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*MariaDB database configuration and user setup*
-
-### Final Verification
-
-![All Applications Running](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*Final verification showing all applications running successfully*
-
-![SSO Test Results](./digitalocean/pictures/Screenshot%202025-09-11%20194023.png)
-*SSO test results across all three applications*
+![Certbot for HTTPS](./digitalocean/pictures/certbot-for-https.png)
+*Certbot SSL certificate installation and configuration*
 
 ## Configuration
 
