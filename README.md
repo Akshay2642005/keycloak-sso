@@ -9,9 +9,9 @@ A comprehensive infrastructure automation project that demonstrates the setup of
 **Live Applications**:
 
 - **Keycloak Admin Console**: [http://64.227.148.71:8080](http://64.227.148.71:8080)
-- **Drupal Application**: [http://drupal.hkcoder.tech](http://drupal.hkcoder.tech)
-- **Django Application**: [http://django.hkcoder.tech](http://django.hkcoder.tech)
-- **PHP Application**: [http://php.hkcoder.tech](http://php.hkcoder.tech)
+- **Drupal Application**: [https://drupal.hkcoder.tech](https://drupal.hkcoder.tech)
+- **Django Application**: [https://django.hkcoder.tech](https://django.hkcoder.tech)
+- **PHP Application**: [https://php.hkcoder.tech](https://php.hkcoder.tech)
 
 ## Overview
 
@@ -176,9 +176,9 @@ The README is now much more detailed and includes all the specific information y
 After successful deployment, access the applications at:
 
 - **Keycloak Admin Console**: [http://64.227.148.71:8080](http://64.227.148.71:8080)
-- **Drupal Application**: [http://drupal.hkcoder.tech](http://drupal.hkcoder.tech)
-- **Django Application**: [http://django.hkcoder.tech](http://django.hkcoder.tech)
-- **PHP Application**: [http://php.hkcoder.tech](http://php.hkcoder.tech)
+- **Drupal Application**: [http://drupal.hkcoder.tech](https://drupal.hkcoder.tech)
+- **Django Application**: [http://django.hkcoder.tech](https://django.hkcoder.tech)
+- **PHP Application**: [http://php.hkcoder.tech](https://php.hkcoder.tech)
 
 ### SSO Configuration
 
@@ -370,7 +370,7 @@ django_client_secret: "U3Ryb25nRGphbmdvU2VjcmV0MTIzDQo"
 - Uses `drupal/keycloak` Composer package
 - OAuth2 client configuration
 - Automatic user provisioning
-- Redirect URI: `http://drupal.hkcoder.tech/keycloak/oauth2/callback`
+- Redirect URI: `https://drupal.hkcoder.tech/keycloak/oauth2/callback`
 
 **Django Integration:**
 
@@ -384,7 +384,7 @@ django_client_secret: "U3Ryb25nRGphbmdvU2VjcmV0MTIzDQo"
 - `jumbojett/openid-connect-php` library
 - Session-based authentication
 - User profile management
-- Redirect URI: `http://php.hkcoder.tech/callback.php`
+- Redirect URI: `https://php.hkcoder.tech/callback.php`
 
 ### Ansible Roles
 
