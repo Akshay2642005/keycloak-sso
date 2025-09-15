@@ -4,7 +4,7 @@ A comprehensive infrastructure automation project that demonstrates the setup of
 
 ## 🌐 Live Demo
 
-**Production Server**: `64.227.153.180`
+**Production Server External IP**: `64.227.153.180`
 
 **Live Applications**:
 
